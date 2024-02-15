@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gcp-lister
+  namespace: crossplane-system
+spec:
+  containers:
+    - name: your-container-name
+      image: jachetblix/go-gcp-bucket
+      env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/var/secrets/google/key.json"
+      volumeMounts:
+        - name: google-cloud-key
+          mountPath: "/var/secrets/google"
+  volumes:
+    - name: google-cloud-key
+      secret:
+        secretName: gcp-credentials
+  restartPolicy: Never
